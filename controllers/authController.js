@@ -56,6 +56,7 @@ export async function registerAuth(req, res) {
 
     return res.status(StatusCodes.CREATED).send({ message: "User Created" });
   } catch (error) {
+    console.log("🚀 ~ registerAuth ~ error:", error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
         return res
