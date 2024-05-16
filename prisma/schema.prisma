@@ -52,8 +52,8 @@ model WarungEmploye {
 model Menu {
    id        Int     @id @default(autoincrement())
    title     String
-   Price     Int
-   Desc      String
+   price     Int
+   desc      String
    image     String
    available Boolean
 

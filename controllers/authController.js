@@ -1,15 +1,18 @@
 import "dotenv/config";
 
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { Prisma } from "@prisma/client";
 import { StatusCodes } from "http-status-codes";
 
-import prisma from "../utils/prisma.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
+import prismaClient from "../utils/prisma.js";
 
 export async function loginAuth(req, res, next) {
   try {
     const { email, password } = req.body;
-    const findUser = await prisma.user.findFirst({
+
+    const findUser = await prismaClient.user.findUnique({
       where: { email: email },
     });
 
@@ -45,24 +48,21 @@ export async function registerAuth(req, res) {
   try {
     const { email, password, username } = req.body;
 
-    const findUser = await prisma.user.findFirst({
-      where: { email: email },
-    });
-
-    if (findUser) {
-      return res
-        .status(StatusCodes.FORBIDDEN)
-        .json({ message: "User Already Exit" });
-    }
-
     const hashPassword = await bcrypt.hash(password, 10);
 
-    await prisma.user.create({
+    await prismaClient.user.create({
       data: { email: email, username: username, password: hashPassword },
     });
 
     return res.status(StatusCodes.CREATED).send({ message: "User Created" });
   } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return res
+          .status(StatusCodes.FORBIDDEN)
+          .json({ message: "User Already Exit" });
+      }
+    }
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: "Internal Server Error" });
