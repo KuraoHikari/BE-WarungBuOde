@@ -152,6 +152,25 @@ exports.Prisma.MenuScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  menuId: 'menuId',
+  billId: 'billId',
+  quantity: 'quantity',
+  total: 'total',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BillScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  total: 'total',
+  status: 'status',
+  approved: 'approved',
+  customerName: 'customerName',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -170,7 +189,9 @@ exports.Prisma.ModelName = {
   User: 'User',
   Warung: 'Warung',
   WarungEmploye: 'WarungEmploye',
-  Menu: 'Menu'
+  Menu: 'Menu',
+  Order: 'Order',
+  Bill: 'Bill'
 };
 
 /**

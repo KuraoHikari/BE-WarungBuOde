@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-   output   = "./generated/client"
+  output   = "./generated/client"
 }
 
 datasource db {
@@ -30,6 +30,8 @@ model User {
    warungs   Warung[]
    warungEmployes WarungEmploye[]
    menu      Menu[]
+
+   bills     Bill[]
 }
 
 model Warung {
@@ -65,4 +67,30 @@ model Menu {
    warungId  Int
    user      User    @relation(fields: [userId], references: [id])
    userId    Int
+
+   orders    Order[]
 }
+
+model Order {
+   id        Int     @id @default(autoincrement())
+   menu      Menu    @relation(fields: [menuId], references: [id])
+   menuId    Int
+   bill      Bill    @relation(fields: [billId], references: [id])
+   billId    Int
+   quantity  Int
+   total     Int
+   createdAt DateTime @default(now())
+}
+
+model Bill {
+   id        Int     @id @default(autoincrement())
+   user      User    @relation(fields: [userId], references: [id])
+   userId    Int
+   total     Int
+   status    String
+   approved  Boolean
+   customerName String
+   createdAt DateTime @default(now())
+   orders    Order[]
+}
+
