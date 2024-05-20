@@ -147,6 +147,7 @@ exports.Prisma.MenuScalarFieldEnum = {
   desc: 'desc',
   image: 'image',
   available: 'available',
+  category: 'category',
   warungId: 'warungId',
   userId: 'userId'
 };

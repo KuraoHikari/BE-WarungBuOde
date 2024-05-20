@@ -4182,6 +4182,7 @@ export namespace Prisma {
     desc: string | null
     image: string | null
     available: boolean | null
+    category: string | null
     warungId: number | null
     userId: number | null
   }
@@ -4193,6 +4194,7 @@ export namespace Prisma {
     desc: string | null
     image: string | null
     available: boolean | null
+    category: string | null
     warungId: number | null
     userId: number | null
   }
@@ -4204,6 +4206,7 @@ export namespace Prisma {
     desc: number
     image: number
     available: number
+    category: number
     warungId: number
     userId: number
     _all: number
@@ -4231,6 +4234,7 @@ export namespace Prisma {
     desc?: true
     image?: true
     available?: true
+    category?: true
     warungId?: true
     userId?: true
   }
@@ -4242,6 +4246,7 @@ export namespace Prisma {
     desc?: true
     image?: true
     available?: true
+    category?: true
     warungId?: true
     userId?: true
   }
@@ -4253,6 +4258,7 @@ export namespace Prisma {
     desc?: true
     image?: true
     available?: true
+    category?: true
     warungId?: true
     userId?: true
     _all?: true
@@ -4351,6 +4357,7 @@ export namespace Prisma {
     desc: string
     image: string
     available: boolean
+    category: string
     warungId: number
     userId: number
     _count: MenuCountAggregateOutputType | null
@@ -4381,6 +4388,7 @@ export namespace Prisma {
     desc?: boolean
     image?: boolean
     available?: boolean
+    category?: boolean
     warungId?: boolean
     userId?: boolean
     warung?: boolean | WarungDefaultArgs<ExtArgs>
@@ -4394,6 +4402,7 @@ export namespace Prisma {
     desc?: boolean
     image?: boolean
     available?: boolean
+    category?: boolean
     warungId?: boolean
     userId?: boolean
   }
@@ -4418,6 +4427,7 @@ export namespace Prisma {
       desc: string
       image: string
       available: boolean
+      category: string
       warungId: number
       userId: number
     }, ExtArgs["result"]["menu"]>
@@ -4823,6 +4833,7 @@ export namespace Prisma {
     readonly desc: FieldRef<"Menu", 'String'>
     readonly image: FieldRef<"Menu", 'String'>
     readonly available: FieldRef<"Menu", 'Boolean'>
+    readonly category: FieldRef<"Menu", 'String'>
     readonly warungId: FieldRef<"Menu", 'Int'>
     readonly userId: FieldRef<"Menu", 'Int'>
   }
@@ -5189,6 +5200,7 @@ export namespace Prisma {
     desc: 'desc',
     image: 'image',
     available: 'available',
+    category: 'category',
     warungId: 'warungId',
     userId: 'userId'
   };
@@ -5464,6 +5476,7 @@ export namespace Prisma {
     desc?: StringFilter<"Menu"> | string
     image?: StringFilter<"Menu"> | string
     available?: BoolFilter<"Menu"> | boolean
+    category?: StringFilter<"Menu"> | string
     warungId?: IntFilter<"Menu"> | number
     userId?: IntFilter<"Menu"> | number
     warung?: XOR<WarungRelationFilter, WarungWhereInput>
@@ -5477,6 +5490,7 @@ export namespace Prisma {
     desc?: SortOrder
     image?: SortOrder
     available?: SortOrder
+    category?: SortOrder
     warungId?: SortOrder
     userId?: SortOrder
     warung?: WarungOrderByWithRelationInput
@@ -5493,6 +5507,7 @@ export namespace Prisma {
     desc?: StringFilter<"Menu"> | string
     image?: StringFilter<"Menu"> | string
     available?: BoolFilter<"Menu"> | boolean
+    category?: StringFilter<"Menu"> | string
     warungId?: IntFilter<"Menu"> | number
     userId?: IntFilter<"Menu"> | number
     warung?: XOR<WarungRelationFilter, WarungWhereInput>
@@ -5506,6 +5521,7 @@ export namespace Prisma {
     desc?: SortOrder
     image?: SortOrder
     available?: SortOrder
+    category?: SortOrder
     warungId?: SortOrder
     userId?: SortOrder
     _count?: MenuCountOrderByAggregateInput
@@ -5525,6 +5541,7 @@ export namespace Prisma {
     desc?: StringWithAggregatesFilter<"Menu"> | string
     image?: StringWithAggregatesFilter<"Menu"> | string
     available?: BoolWithAggregatesFilter<"Menu"> | boolean
+    category?: StringWithAggregatesFilter<"Menu"> | string
     warungId?: IntWithAggregatesFilter<"Menu"> | number
     userId?: IntWithAggregatesFilter<"Menu"> | number
   }
@@ -5691,6 +5708,7 @@ export namespace Prisma {
     desc: string
     image: string
     available: boolean
+    category: string
     warung: WarungCreateNestedOneWithoutMenuInput
     user: UserCreateNestedOneWithoutMenuInput
   }
@@ -5702,6 +5720,7 @@ export namespace Prisma {
     desc: string
     image: string
     available: boolean
+    category: string
     warungId: number
     userId: number
   }
@@ -5712,6 +5731,7 @@ export namespace Prisma {
     desc?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     available?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
     warung?: WarungUpdateOneRequiredWithoutMenuNestedInput
     user?: UserUpdateOneRequiredWithoutMenuNestedInput
   }
@@ -5723,6 +5743,7 @@ export namespace Prisma {
     desc?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     available?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
     warungId?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
   }
@@ -5734,6 +5755,7 @@ export namespace Prisma {
     desc: string
     image: string
     available: boolean
+    category: string
     warungId: number
     userId: number
   }
@@ -5744,6 +5766,7 @@ export namespace Prisma {
     desc?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     available?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
   }
 
   export type MenuUncheckedUpdateManyInput = {
@@ -5753,6 +5776,7 @@ export namespace Prisma {
     desc?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     available?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
     warungId?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
   }
@@ -5979,6 +6003,7 @@ export namespace Prisma {
     desc?: SortOrder
     image?: SortOrder
     available?: SortOrder
+    category?: SortOrder
     warungId?: SortOrder
     userId?: SortOrder
   }
@@ -5997,6 +6022,7 @@ export namespace Prisma {
     desc?: SortOrder
     image?: SortOrder
     available?: SortOrder
+    category?: SortOrder
     warungId?: SortOrder
     userId?: SortOrder
   }
@@ -6008,6 +6034,7 @@ export namespace Prisma {
     desc?: SortOrder
     image?: SortOrder
     available?: SortOrder
+    category?: SortOrder
     warungId?: SortOrder
     userId?: SortOrder
   }
@@ -6476,6 +6503,7 @@ export namespace Prisma {
     desc: string
     image: string
     available: boolean
+    category: string
     warung: WarungCreateNestedOneWithoutMenuInput
   }
 
@@ -6486,6 +6514,7 @@ export namespace Prisma {
     desc: string
     image: string
     available: boolean
+    category: string
     warungId: number
   }
 
@@ -6576,6 +6605,7 @@ export namespace Prisma {
     desc?: StringFilter<"Menu"> | string
     image?: StringFilter<"Menu"> | string
     available?: BoolFilter<"Menu"> | boolean
+    category?: StringFilter<"Menu"> | string
     warungId?: IntFilter<"Menu"> | number
     userId?: IntFilter<"Menu"> | number
   }
@@ -6629,6 +6659,7 @@ export namespace Prisma {
     desc: string
     image: string
     available: boolean
+    category: string
     user: UserCreateNestedOneWithoutMenuInput
   }
 
@@ -6639,6 +6670,7 @@ export namespace Prisma {
     desc: string
     image: string
     available: boolean
+    category: string
     userId: number
   }
 
@@ -6932,6 +6964,7 @@ export namespace Prisma {
     desc: string
     image: string
     available: boolean
+    category: string
     warungId: number
   }
 
@@ -6976,6 +7009,7 @@ export namespace Prisma {
     desc?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     available?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
     warung?: WarungUpdateOneRequiredWithoutMenuNestedInput
   }
 
@@ -6986,6 +7020,7 @@ export namespace Prisma {
     desc?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     available?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
     warungId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -6996,6 +7031,7 @@ export namespace Prisma {
     desc?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     available?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
     warungId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -7011,6 +7047,7 @@ export namespace Prisma {
     desc: string
     image: string
     available: boolean
+    category: string
     userId: number
   }
 
@@ -7034,6 +7071,7 @@ export namespace Prisma {
     desc?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     available?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutMenuNestedInput
   }
 
@@ -7044,6 +7082,7 @@ export namespace Prisma {
     desc?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     available?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -7054,6 +7093,7 @@ export namespace Prisma {
     desc?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     available?: BoolFieldUpdateOperationsInput | boolean
+    category?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
   }
 

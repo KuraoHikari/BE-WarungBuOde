@@ -7,7 +7,7 @@ export async function createMenu(req, res) {
   const { id: userId } = req.user;
   const { warungId } = req.params;
 
-  const { title, price, desc, available } = req.body;
+  const { title, price, desc, available, category } = req.body;
 
   const b64 = Buffer.from(req.file.buffer).toString("base64");
   let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
@@ -23,11 +23,13 @@ export async function createMenu(req, res) {
         image: cldRes.secure_url,
         warungId: Number(warungId),
         userId: Number(userId),
+        category: category,
       },
     });
 
     return res.status(StatusCodes.CREATED).json(menu);
   } catch (error) {
+    console.log("🚀 ~ createMenu ~ error:", error);
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: "Internal Server Error" });
@@ -37,7 +39,11 @@ export async function createMenu(req, res) {
 export async function updateMenu(req, res) {
   const { warungId } = req.params;
 
-  const { title, price, desc, available } = req.body;
+  const { title, price, desc, available, category } = req.body;
+
+  const b64 = Buffer.from(req.file.buffer).toString("base64");
+  let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+  const cldRes = await handleUpload(dataURI);
 
   try {
     const dataUpdate = {
@@ -45,7 +51,9 @@ export async function updateMenu(req, res) {
       price: Number(price) || undefined,
       desc: desc || undefined,
       available: Boolean(available) || undefined,
+      category: category || undefined,
     };
+
     const menu = await prismaClient.menu.update({
       where: {
         id: +warungId,
@@ -128,10 +136,16 @@ export async function getWarungMenu(req, res) {
 
 export async function getAllMenuByWarungName(req, res) {
   const { warungName } = req.params;
+  const { category } = req.query;
 
   try {
+    const whereClause = { warung: { name: warungName } };
+
+    if (category) {
+      whereClause.category = category;
+    }
     const menus = await prismaClient.menu.findMany({
-      where: { warung: { name: warungName } },
+      where: whereClause,
       select: {
         title: true,
         price: true,

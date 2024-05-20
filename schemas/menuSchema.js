@@ -5,6 +5,7 @@ export const createMenuSchema = z.object({
   price: z.coerce.number(),
   desc: z.string(),
   available: z.coerce.boolean(),
+  category: z.string(),
 });
 
 export const MenuSchema = z.object({
@@ -12,6 +13,7 @@ export const MenuSchema = z.object({
   price: z.coerce.number(),
   desc: z.string(),
   available: z.coerce.boolean(),
+  category: z.string(),
 });
 
 export const updateMenuSchema = z.object({
@@ -19,4 +21,5 @@ export const updateMenuSchema = z.object({
   price: z.coerce.number().optional(),
   desc: z.string().optional(),
   available: z.coerce.boolean().optional(),
+  category: z.string(),
 });

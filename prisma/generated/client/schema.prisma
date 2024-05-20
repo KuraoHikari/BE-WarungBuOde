@@ -59,6 +59,7 @@ model Menu {
    desc      String
    image     String
    available Boolean
+   category  String
 
    warung    Warung    @relation(fields: [warungId], references: [id])
    warungId  Int
