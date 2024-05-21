@@ -163,12 +163,13 @@ exports.Prisma.OrderScalarFieldEnum = {
 
 exports.Prisma.BillScalarFieldEnum = {
   id: 'id',
-  userId: 'userId',
   total: 'total',
   status: 'status',
   approved: 'approved',
   customerName: 'customerName',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  userId: 'userId',
+  warungId: 'warungId'
 };
 
 exports.Prisma.SortOrder = {

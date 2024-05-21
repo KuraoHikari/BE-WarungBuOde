@@ -7,10 +7,10 @@ export default function imgValidate(req, res, next) {
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: "file must be an image" });
     } else {
-      if (req.file.size >= 261120) {
+      if (req.file.size >= 261120 * 2) {
         return res
           .status(StatusCodes.BAD_REQUEST)
-          .json({ message: "max image size is 255kb" });
+          .json({ message: "max image size is 510kb" });
       } else {
         next();
       }

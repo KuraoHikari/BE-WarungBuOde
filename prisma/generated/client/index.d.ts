@@ -1360,11 +1360,13 @@ export namespace Prisma {
   export type WarungCountOutputType = {
     warungEmployes: number
     menu: number
+    bills: number
   }
 
   export type WarungCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     warungEmployes?: boolean | WarungCountOutputTypeCountWarungEmployesArgs
     menu?: boolean | WarungCountOutputTypeCountMenuArgs
+    bills?: boolean | WarungCountOutputTypeCountBillsArgs
   }
 
   // Custom InputTypes
@@ -1390,6 +1392,13 @@ export namespace Prisma {
    */
   export type WarungCountOutputTypeCountMenuArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MenuWhereInput
+  }
+
+  /**
+   * WarungCountOutputType without action
+   */
+  export type WarungCountOutputTypeCountBillsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BillWhereInput
   }
 
 
@@ -2692,6 +2701,7 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     warungEmployes?: boolean | Warung$warungEmployesArgs<ExtArgs>
     menu?: boolean | Warung$menuArgs<ExtArgs>
+    bills?: boolean | Warung$billsArgs<ExtArgs>
     _count?: boolean | WarungCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["warung"]>
 
@@ -2707,6 +2717,7 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     warungEmployes?: boolean | Warung$warungEmployesArgs<ExtArgs>
     menu?: boolean | Warung$menuArgs<ExtArgs>
+    bills?: boolean | Warung$billsArgs<ExtArgs>
     _count?: boolean | WarungCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -2717,6 +2728,7 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
       warungEmployes: Prisma.$WarungEmployePayload<ExtArgs>[]
       menu: Prisma.$MenuPayload<ExtArgs>[]
+      bills: Prisma.$BillPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -3094,6 +3106,8 @@ export namespace Prisma {
 
     menu<T extends Warung$menuArgs<ExtArgs> = {}>(args?: Subset<T, Warung$menuArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuPayload<ExtArgs>, T, 'findMany'> | Null>;
 
+    bills<T extends Warung$billsArgs<ExtArgs> = {}>(args?: Subset<T, Warung$billsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BillPayload<ExtArgs>, T, 'findMany'> | Null>;
+
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3462,6 +3476,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MenuScalarFieldEnum | MenuScalarFieldEnum[]
+  }
+
+  /**
+   * Warung.bills
+   */
+  export type Warung$billsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Bill
+     */
+    select?: BillSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BillInclude<ExtArgs> | null
+    where?: BillWhereInput
+    orderBy?: BillOrderByWithRelationInput | BillOrderByWithRelationInput[]
+    cursor?: BillWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BillScalarFieldEnum | BillScalarFieldEnum[]
   }
 
   /**
@@ -6421,88 +6455,98 @@ export namespace Prisma {
 
   export type BillAvgAggregateOutputType = {
     id: number | null
-    userId: number | null
     total: number | null
+    userId: number | null
+    warungId: number | null
   }
 
   export type BillSumAggregateOutputType = {
     id: number | null
-    userId: number | null
     total: number | null
+    userId: number | null
+    warungId: number | null
   }
 
   export type BillMinAggregateOutputType = {
     id: number | null
-    userId: number | null
     total: number | null
     status: string | null
     approved: boolean | null
     customerName: string | null
     createdAt: Date | null
+    userId: number | null
+    warungId: number | null
   }
 
   export type BillMaxAggregateOutputType = {
     id: number | null
-    userId: number | null
     total: number | null
     status: string | null
     approved: boolean | null
     customerName: string | null
     createdAt: Date | null
+    userId: number | null
+    warungId: number | null
   }
 
   export type BillCountAggregateOutputType = {
     id: number
-    userId: number
     total: number
     status: number
     approved: number
     customerName: number
     createdAt: number
+    userId: number
+    warungId: number
     _all: number
   }
 
 
   export type BillAvgAggregateInputType = {
     id?: true
-    userId?: true
     total?: true
+    userId?: true
+    warungId?: true
   }
 
   export type BillSumAggregateInputType = {
     id?: true
-    userId?: true
     total?: true
+    userId?: true
+    warungId?: true
   }
 
   export type BillMinAggregateInputType = {
     id?: true
-    userId?: true
     total?: true
     status?: true
     approved?: true
     customerName?: true
     createdAt?: true
+    userId?: true
+    warungId?: true
   }
 
   export type BillMaxAggregateInputType = {
     id?: true
-    userId?: true
     total?: true
     status?: true
     approved?: true
     customerName?: true
     createdAt?: true
+    userId?: true
+    warungId?: true
   }
 
   export type BillCountAggregateInputType = {
     id?: true
-    userId?: true
     total?: true
     status?: true
     approved?: true
     customerName?: true
     createdAt?: true
+    userId?: true
+    warungId?: true
     _all?: true
   }
 
@@ -6594,12 +6638,13 @@ export namespace Prisma {
 
   export type BillGroupByOutputType = {
     id: number
-    userId: number
     total: number
     status: string
     approved: boolean
     customerName: string
     createdAt: Date
+    userId: number
+    warungId: number
     _count: BillCountAggregateOutputType | null
     _avg: BillAvgAggregateOutputType | null
     _sum: BillSumAggregateOutputType | null
@@ -6623,30 +6668,34 @@ export namespace Prisma {
 
   export type BillSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
     total?: boolean
     status?: boolean
     approved?: boolean
     customerName?: boolean
     createdAt?: boolean
+    userId?: boolean
+    warungId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    warung?: boolean | WarungDefaultArgs<ExtArgs>
     orders?: boolean | Bill$ordersArgs<ExtArgs>
     _count?: boolean | BillCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["bill"]>
 
   export type BillSelectScalar = {
     id?: boolean
-    userId?: boolean
     total?: boolean
     status?: boolean
     approved?: boolean
     customerName?: boolean
     createdAt?: boolean
+    userId?: boolean
+    warungId?: boolean
   }
 
 
   export type BillInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    warung?: boolean | WarungDefaultArgs<ExtArgs>
     orders?: boolean | Bill$ordersArgs<ExtArgs>
     _count?: boolean | BillCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -6656,16 +6705,18 @@ export namespace Prisma {
     name: "Bill"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      warung: Prisma.$WarungPayload<ExtArgs>
       orders: Prisma.$OrderPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      userId: number
       total: number
       status: string
       approved: boolean
       customerName: string
       createdAt: Date
+      userId: number
+      warungId: number
     }, ExtArgs["result"]["bill"]>
     composites: {}
   }
@@ -7033,6 +7084,8 @@ export namespace Prisma {
 
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
 
+    warung<T extends WarungDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WarungDefaultArgs<ExtArgs>>): Prisma__WarungClient<$Result.GetResult<Prisma.$WarungPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
     orders<T extends Bill$ordersArgs<ExtArgs> = {}>(args?: Subset<T, Bill$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
@@ -7064,12 +7117,13 @@ export namespace Prisma {
    */ 
   interface BillFieldRefs {
     readonly id: FieldRef<"Bill", 'Int'>
-    readonly userId: FieldRef<"Bill", 'Int'>
     readonly total: FieldRef<"Bill", 'Int'>
     readonly status: FieldRef<"Bill", 'String'>
     readonly approved: FieldRef<"Bill", 'Boolean'>
     readonly customerName: FieldRef<"Bill", 'String'>
     readonly createdAt: FieldRef<"Bill", 'DateTime'>
+    readonly userId: FieldRef<"Bill", 'Int'>
+    readonly warungId: FieldRef<"Bill", 'Int'>
   }
     
 
@@ -7476,12 +7530,13 @@ export namespace Prisma {
 
   export const BillScalarFieldEnum: {
     id: 'id',
-    userId: 'userId',
     total: 'total',
     status: 'status',
     approved: 'approved',
     customerName: 'customerName',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    userId: 'userId',
+    warungId: 'warungId'
   };
 
   export type BillScalarFieldEnum = (typeof BillScalarFieldEnum)[keyof typeof BillScalarFieldEnum]
@@ -7665,6 +7720,7 @@ export namespace Prisma {
     user?: XOR<UserRelationFilter, UserWhereInput>
     warungEmployes?: WarungEmployeListRelationFilter
     menu?: MenuListRelationFilter
+    bills?: BillListRelationFilter
   }
 
   export type WarungOrderByWithRelationInput = {
@@ -7675,6 +7731,7 @@ export namespace Prisma {
     user?: UserOrderByWithRelationInput
     warungEmployes?: WarungEmployeOrderByRelationAggregateInput
     menu?: MenuOrderByRelationAggregateInput
+    bills?: BillOrderByRelationAggregateInput
   }
 
   export type WarungWhereUniqueInput = Prisma.AtLeast<{
@@ -7688,6 +7745,7 @@ export namespace Prisma {
     user?: XOR<UserRelationFilter, UserWhereInput>
     warungEmployes?: WarungEmployeListRelationFilter
     menu?: MenuListRelationFilter
+    bills?: BillListRelationFilter
   }, "id" | "name">
 
   export type WarungOrderByWithAggregationInput = {
@@ -7915,25 +7973,29 @@ export namespace Prisma {
     OR?: BillWhereInput[]
     NOT?: BillWhereInput | BillWhereInput[]
     id?: IntFilter<"Bill"> | number
-    userId?: IntFilter<"Bill"> | number
     total?: IntFilter<"Bill"> | number
     status?: StringFilter<"Bill"> | string
     approved?: BoolFilter<"Bill"> | boolean
     customerName?: StringFilter<"Bill"> | string
     createdAt?: DateTimeFilter<"Bill"> | Date | string
+    userId?: IntFilter<"Bill"> | number
+    warungId?: IntFilter<"Bill"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
+    warung?: XOR<WarungRelationFilter, WarungWhereInput>
     orders?: OrderListRelationFilter
   }
 
   export type BillOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
     total?: SortOrder
     status?: SortOrder
     approved?: SortOrder
     customerName?: SortOrder
     createdAt?: SortOrder
+    userId?: SortOrder
+    warungId?: SortOrder
     user?: UserOrderByWithRelationInput
+    warung?: WarungOrderByWithRelationInput
     orders?: OrderOrderByRelationAggregateInput
   }
 
@@ -7942,24 +8004,27 @@ export namespace Prisma {
     AND?: BillWhereInput | BillWhereInput[]
     OR?: BillWhereInput[]
     NOT?: BillWhereInput | BillWhereInput[]
-    userId?: IntFilter<"Bill"> | number
     total?: IntFilter<"Bill"> | number
     status?: StringFilter<"Bill"> | string
     approved?: BoolFilter<"Bill"> | boolean
     customerName?: StringFilter<"Bill"> | string
     createdAt?: DateTimeFilter<"Bill"> | Date | string
+    userId?: IntFilter<"Bill"> | number
+    warungId?: IntFilter<"Bill"> | number
     user?: XOR<UserRelationFilter, UserWhereInput>
+    warung?: XOR<WarungRelationFilter, WarungWhereInput>
     orders?: OrderListRelationFilter
   }, "id">
 
   export type BillOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
     total?: SortOrder
     status?: SortOrder
     approved?: SortOrder
     customerName?: SortOrder
     createdAt?: SortOrder
+    userId?: SortOrder
+    warungId?: SortOrder
     _count?: BillCountOrderByAggregateInput
     _avg?: BillAvgOrderByAggregateInput
     _max?: BillMaxOrderByAggregateInput
@@ -7972,12 +8037,13 @@ export namespace Prisma {
     OR?: BillScalarWhereWithAggregatesInput[]
     NOT?: BillScalarWhereWithAggregatesInput | BillScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Bill"> | number
-    userId?: IntWithAggregatesFilter<"Bill"> | number
     total?: IntWithAggregatesFilter<"Bill"> | number
     status?: StringWithAggregatesFilter<"Bill"> | string
     approved?: BoolWithAggregatesFilter<"Bill"> | boolean
     customerName?: StringWithAggregatesFilter<"Bill"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Bill"> | Date | string
+    userId?: IntWithAggregatesFilter<"Bill"> | number
+    warungId?: IntWithAggregatesFilter<"Bill"> | number
   }
 
   export type UserCreateInput = {
@@ -8055,6 +8121,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutWarungsInput
     warungEmployes?: WarungEmployeCreateNestedManyWithoutWarungInput
     menu?: MenuCreateNestedManyWithoutWarungInput
+    bills?: BillCreateNestedManyWithoutWarungInput
   }
 
   export type WarungUncheckedCreateInput = {
@@ -8064,6 +8131,7 @@ export namespace Prisma {
     userId: number
     warungEmployes?: WarungEmployeUncheckedCreateNestedManyWithoutWarungInput
     menu?: MenuUncheckedCreateNestedManyWithoutWarungInput
+    bills?: BillUncheckedCreateNestedManyWithoutWarungInput
   }
 
   export type WarungUpdateInput = {
@@ -8072,6 +8140,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutWarungsNestedInput
     warungEmployes?: WarungEmployeUpdateManyWithoutWarungNestedInput
     menu?: MenuUpdateManyWithoutWarungNestedInput
+    bills?: BillUpdateManyWithoutWarungNestedInput
   }
 
   export type WarungUncheckedUpdateInput = {
@@ -8081,6 +8150,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     warungEmployes?: WarungEmployeUncheckedUpdateManyWithoutWarungNestedInput
     menu?: MenuUncheckedUpdateManyWithoutWarungNestedInput
+    bills?: BillUncheckedUpdateManyWithoutWarungNestedInput
   }
 
   export type WarungCreateManyInput = {
@@ -8288,17 +8358,19 @@ export namespace Prisma {
     customerName: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutBillsInput
+    warung: WarungCreateNestedOneWithoutBillsInput
     orders?: OrderCreateNestedManyWithoutBillInput
   }
 
   export type BillUncheckedCreateInput = {
     id?: number
-    userId: number
     total: number
     status: string
     approved: boolean
     customerName: string
     createdAt?: Date | string
+    userId: number
+    warungId: number
     orders?: OrderUncheckedCreateNestedManyWithoutBillInput
   }
 
@@ -8309,28 +8381,31 @@ export namespace Prisma {
     customerName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutBillsNestedInput
+    warung?: WarungUpdateOneRequiredWithoutBillsNestedInput
     orders?: OrderUpdateManyWithoutBillNestedInput
   }
 
   export type BillUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
     total?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     approved?: BoolFieldUpdateOperationsInput | boolean
     customerName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    warungId?: IntFieldUpdateOperationsInput | number
     orders?: OrderUncheckedUpdateManyWithoutBillNestedInput
   }
 
   export type BillCreateManyInput = {
     id?: number
-    userId: number
     total: number
     status: string
     approved: boolean
     customerName: string
     createdAt?: Date | string
+    userId: number
+    warungId: number
   }
 
   export type BillUpdateManyMutationInput = {
@@ -8343,12 +8418,13 @@ export namespace Prisma {
 
   export type BillUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
     total?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     approved?: BoolFieldUpdateOperationsInput | boolean
     customerName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    warungId?: IntFieldUpdateOperationsInput | number
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -8724,44 +8800,49 @@ export namespace Prisma {
 
   export type BillCountOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     total?: SortOrder
     status?: SortOrder
     approved?: SortOrder
     customerName?: SortOrder
     createdAt?: SortOrder
+    userId?: SortOrder
+    warungId?: SortOrder
   }
 
   export type BillAvgOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     total?: SortOrder
+    userId?: SortOrder
+    warungId?: SortOrder
   }
 
   export type BillMaxOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     total?: SortOrder
     status?: SortOrder
     approved?: SortOrder
     customerName?: SortOrder
     createdAt?: SortOrder
+    userId?: SortOrder
+    warungId?: SortOrder
   }
 
   export type BillMinOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     total?: SortOrder
     status?: SortOrder
     approved?: SortOrder
     customerName?: SortOrder
     createdAt?: SortOrder
+    userId?: SortOrder
+    warungId?: SortOrder
   }
 
   export type BillSumOrderByAggregateInput = {
     id?: SortOrder
-    userId?: SortOrder
     total?: SortOrder
+    userId?: SortOrder
+    warungId?: SortOrder
   }
 
   export type WarungCreateNestedManyWithoutUserInput = {
@@ -8968,6 +9049,13 @@ export namespace Prisma {
     connect?: MenuWhereUniqueInput | MenuWhereUniqueInput[]
   }
 
+  export type BillCreateNestedManyWithoutWarungInput = {
+    create?: XOR<BillCreateWithoutWarungInput, BillUncheckedCreateWithoutWarungInput> | BillCreateWithoutWarungInput[] | BillUncheckedCreateWithoutWarungInput[]
+    connectOrCreate?: BillCreateOrConnectWithoutWarungInput | BillCreateOrConnectWithoutWarungInput[]
+    createMany?: BillCreateManyWarungInputEnvelope
+    connect?: BillWhereUniqueInput | BillWhereUniqueInput[]
+  }
+
   export type WarungEmployeUncheckedCreateNestedManyWithoutWarungInput = {
     create?: XOR<WarungEmployeCreateWithoutWarungInput, WarungEmployeUncheckedCreateWithoutWarungInput> | WarungEmployeCreateWithoutWarungInput[] | WarungEmployeUncheckedCreateWithoutWarungInput[]
     connectOrCreate?: WarungEmployeCreateOrConnectWithoutWarungInput | WarungEmployeCreateOrConnectWithoutWarungInput[]
@@ -8980,6 +9068,13 @@ export namespace Prisma {
     connectOrCreate?: MenuCreateOrConnectWithoutWarungInput | MenuCreateOrConnectWithoutWarungInput[]
     createMany?: MenuCreateManyWarungInputEnvelope
     connect?: MenuWhereUniqueInput | MenuWhereUniqueInput[]
+  }
+
+  export type BillUncheckedCreateNestedManyWithoutWarungInput = {
+    create?: XOR<BillCreateWithoutWarungInput, BillUncheckedCreateWithoutWarungInput> | BillCreateWithoutWarungInput[] | BillUncheckedCreateWithoutWarungInput[]
+    connectOrCreate?: BillCreateOrConnectWithoutWarungInput | BillCreateOrConnectWithoutWarungInput[]
+    createMany?: BillCreateManyWarungInputEnvelope
+    connect?: BillWhereUniqueInput | BillWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutWarungsNestedInput = {
@@ -9018,6 +9113,20 @@ export namespace Prisma {
     deleteMany?: MenuScalarWhereInput | MenuScalarWhereInput[]
   }
 
+  export type BillUpdateManyWithoutWarungNestedInput = {
+    create?: XOR<BillCreateWithoutWarungInput, BillUncheckedCreateWithoutWarungInput> | BillCreateWithoutWarungInput[] | BillUncheckedCreateWithoutWarungInput[]
+    connectOrCreate?: BillCreateOrConnectWithoutWarungInput | BillCreateOrConnectWithoutWarungInput[]
+    upsert?: BillUpsertWithWhereUniqueWithoutWarungInput | BillUpsertWithWhereUniqueWithoutWarungInput[]
+    createMany?: BillCreateManyWarungInputEnvelope
+    set?: BillWhereUniqueInput | BillWhereUniqueInput[]
+    disconnect?: BillWhereUniqueInput | BillWhereUniqueInput[]
+    delete?: BillWhereUniqueInput | BillWhereUniqueInput[]
+    connect?: BillWhereUniqueInput | BillWhereUniqueInput[]
+    update?: BillUpdateWithWhereUniqueWithoutWarungInput | BillUpdateWithWhereUniqueWithoutWarungInput[]
+    updateMany?: BillUpdateManyWithWhereWithoutWarungInput | BillUpdateManyWithWhereWithoutWarungInput[]
+    deleteMany?: BillScalarWhereInput | BillScalarWhereInput[]
+  }
+
   export type WarungEmployeUncheckedUpdateManyWithoutWarungNestedInput = {
     create?: XOR<WarungEmployeCreateWithoutWarungInput, WarungEmployeUncheckedCreateWithoutWarungInput> | WarungEmployeCreateWithoutWarungInput[] | WarungEmployeUncheckedCreateWithoutWarungInput[]
     connectOrCreate?: WarungEmployeCreateOrConnectWithoutWarungInput | WarungEmployeCreateOrConnectWithoutWarungInput[]
@@ -9044,6 +9153,20 @@ export namespace Prisma {
     update?: MenuUpdateWithWhereUniqueWithoutWarungInput | MenuUpdateWithWhereUniqueWithoutWarungInput[]
     updateMany?: MenuUpdateManyWithWhereWithoutWarungInput | MenuUpdateManyWithWhereWithoutWarungInput[]
     deleteMany?: MenuScalarWhereInput | MenuScalarWhereInput[]
+  }
+
+  export type BillUncheckedUpdateManyWithoutWarungNestedInput = {
+    create?: XOR<BillCreateWithoutWarungInput, BillUncheckedCreateWithoutWarungInput> | BillCreateWithoutWarungInput[] | BillUncheckedCreateWithoutWarungInput[]
+    connectOrCreate?: BillCreateOrConnectWithoutWarungInput | BillCreateOrConnectWithoutWarungInput[]
+    upsert?: BillUpsertWithWhereUniqueWithoutWarungInput | BillUpsertWithWhereUniqueWithoutWarungInput[]
+    createMany?: BillCreateManyWarungInputEnvelope
+    set?: BillWhereUniqueInput | BillWhereUniqueInput[]
+    disconnect?: BillWhereUniqueInput | BillWhereUniqueInput[]
+    delete?: BillWhereUniqueInput | BillWhereUniqueInput[]
+    connect?: BillWhereUniqueInput | BillWhereUniqueInput[]
+    update?: BillUpdateWithWhereUniqueWithoutWarungInput | BillUpdateWithWhereUniqueWithoutWarungInput[]
+    updateMany?: BillUpdateManyWithWhereWithoutWarungInput | BillUpdateManyWithWhereWithoutWarungInput[]
+    deleteMany?: BillScalarWhereInput | BillScalarWhereInput[]
   }
 
   export type WarungCreateNestedOneWithoutWarungEmployesInput = {
@@ -9186,6 +9309,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type WarungCreateNestedOneWithoutBillsInput = {
+    create?: XOR<WarungCreateWithoutBillsInput, WarungUncheckedCreateWithoutBillsInput>
+    connectOrCreate?: WarungCreateOrConnectWithoutBillsInput
+    connect?: WarungWhereUniqueInput
+  }
+
   export type OrderCreateNestedManyWithoutBillInput = {
     create?: XOR<OrderCreateWithoutBillInput, OrderUncheckedCreateWithoutBillInput> | OrderCreateWithoutBillInput[] | OrderUncheckedCreateWithoutBillInput[]
     connectOrCreate?: OrderCreateOrConnectWithoutBillInput | OrderCreateOrConnectWithoutBillInput[]
@@ -9206,6 +9335,14 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutBillsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBillsInput, UserUpdateWithoutBillsInput>, UserUncheckedUpdateWithoutBillsInput>
+  }
+
+  export type WarungUpdateOneRequiredWithoutBillsNestedInput = {
+    create?: XOR<WarungCreateWithoutBillsInput, WarungUncheckedCreateWithoutBillsInput>
+    connectOrCreate?: WarungCreateOrConnectWithoutBillsInput
+    upsert?: WarungUpsertWithoutBillsInput
+    connect?: WarungWhereUniqueInput
+    update?: XOR<XOR<WarungUpdateToOneWithWhereWithoutBillsInput, WarungUpdateWithoutBillsInput>, WarungUncheckedUpdateWithoutBillsInput>
   }
 
   export type OrderUpdateManyWithoutBillNestedInput = {
@@ -9365,6 +9502,7 @@ export namespace Prisma {
     location: string
     warungEmployes?: WarungEmployeCreateNestedManyWithoutWarungInput
     menu?: MenuCreateNestedManyWithoutWarungInput
+    bills?: BillCreateNestedManyWithoutWarungInput
   }
 
   export type WarungUncheckedCreateWithoutUserInput = {
@@ -9373,6 +9511,7 @@ export namespace Prisma {
     location: string
     warungEmployes?: WarungEmployeUncheckedCreateNestedManyWithoutWarungInput
     menu?: MenuUncheckedCreateNestedManyWithoutWarungInput
+    bills?: BillUncheckedCreateNestedManyWithoutWarungInput
   }
 
   export type WarungCreateOrConnectWithoutUserInput = {
@@ -9443,6 +9582,7 @@ export namespace Prisma {
     approved: boolean
     customerName: string
     createdAt?: Date | string
+    warung: WarungCreateNestedOneWithoutBillsInput
     orders?: OrderCreateNestedManyWithoutBillInput
   }
 
@@ -9453,6 +9593,7 @@ export namespace Prisma {
     approved: boolean
     customerName: string
     createdAt?: Date | string
+    warungId: number
     orders?: OrderUncheckedCreateNestedManyWithoutBillInput
   }
 
@@ -9569,12 +9710,13 @@ export namespace Prisma {
     OR?: BillScalarWhereInput[]
     NOT?: BillScalarWhereInput | BillScalarWhereInput[]
     id?: IntFilter<"Bill"> | number
-    userId?: IntFilter<"Bill"> | number
     total?: IntFilter<"Bill"> | number
     status?: StringFilter<"Bill"> | string
     approved?: BoolFilter<"Bill"> | boolean
     customerName?: StringFilter<"Bill"> | string
     createdAt?: DateTimeFilter<"Bill"> | Date | string
+    userId?: IntFilter<"Bill"> | number
+    warungId?: IntFilter<"Bill"> | number
   }
 
   export type UserCreateWithoutWarungsInput = {
@@ -9655,6 +9797,37 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BillCreateWithoutWarungInput = {
+    total: number
+    status: string
+    approved: boolean
+    customerName: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutBillsInput
+    orders?: OrderCreateNestedManyWithoutBillInput
+  }
+
+  export type BillUncheckedCreateWithoutWarungInput = {
+    id?: number
+    total: number
+    status: string
+    approved: boolean
+    customerName: string
+    createdAt?: Date | string
+    userId: number
+    orders?: OrderUncheckedCreateNestedManyWithoutBillInput
+  }
+
+  export type BillCreateOrConnectWithoutWarungInput = {
+    where: BillWhereUniqueInput
+    create: XOR<BillCreateWithoutWarungInput, BillUncheckedCreateWithoutWarungInput>
+  }
+
+  export type BillCreateManyWarungInputEnvelope = {
+    data: BillCreateManyWarungInput | BillCreateManyWarungInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutWarungsInput = {
     update: XOR<UserUpdateWithoutWarungsInput, UserUncheckedUpdateWithoutWarungsInput>
     create: XOR<UserCreateWithoutWarungsInput, UserUncheckedCreateWithoutWarungsInput>
@@ -9719,11 +9892,28 @@ export namespace Prisma {
     data: XOR<MenuUpdateManyMutationInput, MenuUncheckedUpdateManyWithoutWarungInput>
   }
 
+  export type BillUpsertWithWhereUniqueWithoutWarungInput = {
+    where: BillWhereUniqueInput
+    update: XOR<BillUpdateWithoutWarungInput, BillUncheckedUpdateWithoutWarungInput>
+    create: XOR<BillCreateWithoutWarungInput, BillUncheckedCreateWithoutWarungInput>
+  }
+
+  export type BillUpdateWithWhereUniqueWithoutWarungInput = {
+    where: BillWhereUniqueInput
+    data: XOR<BillUpdateWithoutWarungInput, BillUncheckedUpdateWithoutWarungInput>
+  }
+
+  export type BillUpdateManyWithWhereWithoutWarungInput = {
+    where: BillScalarWhereInput
+    data: XOR<BillUpdateManyMutationInput, BillUncheckedUpdateManyWithoutWarungInput>
+  }
+
   export type WarungCreateWithoutWarungEmployesInput = {
     name: string
     location: string
     user: UserCreateNestedOneWithoutWarungsInput
     menu?: MenuCreateNestedManyWithoutWarungInput
+    bills?: BillCreateNestedManyWithoutWarungInput
   }
 
   export type WarungUncheckedCreateWithoutWarungEmployesInput = {
@@ -9732,6 +9922,7 @@ export namespace Prisma {
     location: string
     userId: number
     menu?: MenuUncheckedCreateNestedManyWithoutWarungInput
+    bills?: BillUncheckedCreateNestedManyWithoutWarungInput
   }
 
   export type WarungCreateOrConnectWithoutWarungEmployesInput = {
@@ -9781,6 +9972,7 @@ export namespace Prisma {
     location?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutWarungsNestedInput
     menu?: MenuUpdateManyWithoutWarungNestedInput
+    bills?: BillUpdateManyWithoutWarungNestedInput
   }
 
   export type WarungUncheckedUpdateWithoutWarungEmployesInput = {
@@ -9789,6 +9981,7 @@ export namespace Prisma {
     location?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
     menu?: MenuUncheckedUpdateManyWithoutWarungNestedInput
+    bills?: BillUncheckedUpdateManyWithoutWarungNestedInput
   }
 
   export type UserUpsertWithoutWarungEmployesInput = {
@@ -9828,6 +10021,7 @@ export namespace Prisma {
     location: string
     user: UserCreateNestedOneWithoutWarungsInput
     warungEmployes?: WarungEmployeCreateNestedManyWithoutWarungInput
+    bills?: BillCreateNestedManyWithoutWarungInput
   }
 
   export type WarungUncheckedCreateWithoutMenuInput = {
@@ -9836,6 +10030,7 @@ export namespace Prisma {
     location: string
     userId: number
     warungEmployes?: WarungEmployeUncheckedCreateNestedManyWithoutWarungInput
+    bills?: BillUncheckedCreateNestedManyWithoutWarungInput
   }
 
   export type WarungCreateOrConnectWithoutMenuInput = {
@@ -9910,6 +10105,7 @@ export namespace Prisma {
     location?: StringFieldUpdateOperationsInput | string
     user?: UserUpdateOneRequiredWithoutWarungsNestedInput
     warungEmployes?: WarungEmployeUpdateManyWithoutWarungNestedInput
+    bills?: BillUpdateManyWithoutWarungNestedInput
   }
 
   export type WarungUncheckedUpdateWithoutMenuInput = {
@@ -9918,6 +10114,7 @@ export namespace Prisma {
     location?: StringFieldUpdateOperationsInput | string
     userId?: IntFieldUpdateOperationsInput | number
     warungEmployes?: WarungEmployeUncheckedUpdateManyWithoutWarungNestedInput
+    bills?: BillUncheckedUpdateManyWithoutWarungNestedInput
   }
 
   export type UserUpsertWithoutMenuInput = {
@@ -10015,16 +10212,18 @@ export namespace Prisma {
     customerName: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutBillsInput
+    warung: WarungCreateNestedOneWithoutBillsInput
   }
 
   export type BillUncheckedCreateWithoutOrdersInput = {
     id?: number
-    userId: number
     total: number
     status: string
     approved: boolean
     customerName: string
     createdAt?: Date | string
+    userId: number
+    warungId: number
   }
 
   export type BillCreateOrConnectWithoutOrdersInput = {
@@ -10084,16 +10283,18 @@ export namespace Prisma {
     customerName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutBillsNestedInput
+    warung?: WarungUpdateOneRequiredWithoutBillsNestedInput
   }
 
   export type BillUncheckedUpdateWithoutOrdersInput = {
     id?: IntFieldUpdateOperationsInput | number
-    userId?: IntFieldUpdateOperationsInput | number
     total?: IntFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     approved?: BoolFieldUpdateOperationsInput | boolean
     customerName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    warungId?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserCreateWithoutBillsInput = {
@@ -10120,6 +10321,28 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutBillsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutBillsInput, UserUncheckedCreateWithoutBillsInput>
+  }
+
+  export type WarungCreateWithoutBillsInput = {
+    name: string
+    location: string
+    user: UserCreateNestedOneWithoutWarungsInput
+    warungEmployes?: WarungEmployeCreateNestedManyWithoutWarungInput
+    menu?: MenuCreateNestedManyWithoutWarungInput
+  }
+
+  export type WarungUncheckedCreateWithoutBillsInput = {
+    id?: number
+    name: string
+    location: string
+    userId: number
+    warungEmployes?: WarungEmployeUncheckedCreateNestedManyWithoutWarungInput
+    menu?: MenuUncheckedCreateNestedManyWithoutWarungInput
+  }
+
+  export type WarungCreateOrConnectWithoutBillsInput = {
+    where: WarungWhereUniqueInput
+    create: XOR<WarungCreateWithoutBillsInput, WarungUncheckedCreateWithoutBillsInput>
   }
 
   export type OrderCreateWithoutBillInput = {
@@ -10179,6 +10402,34 @@ export namespace Prisma {
     menu?: MenuUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type WarungUpsertWithoutBillsInput = {
+    update: XOR<WarungUpdateWithoutBillsInput, WarungUncheckedUpdateWithoutBillsInput>
+    create: XOR<WarungCreateWithoutBillsInput, WarungUncheckedCreateWithoutBillsInput>
+    where?: WarungWhereInput
+  }
+
+  export type WarungUpdateToOneWithWhereWithoutBillsInput = {
+    where?: WarungWhereInput
+    data: XOR<WarungUpdateWithoutBillsInput, WarungUncheckedUpdateWithoutBillsInput>
+  }
+
+  export type WarungUpdateWithoutBillsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutWarungsNestedInput
+    warungEmployes?: WarungEmployeUpdateManyWithoutWarungNestedInput
+    menu?: MenuUpdateManyWithoutWarungNestedInput
+  }
+
+  export type WarungUncheckedUpdateWithoutBillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    location?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
+    warungEmployes?: WarungEmployeUncheckedUpdateManyWithoutWarungNestedInput
+    menu?: MenuUncheckedUpdateManyWithoutWarungNestedInput
+  }
+
   export type OrderUpsertWithWhereUniqueWithoutBillInput = {
     where: OrderWhereUniqueInput
     update: XOR<OrderUpdateWithoutBillInput, OrderUncheckedUpdateWithoutBillInput>
@@ -10224,6 +10475,7 @@ export namespace Prisma {
     approved: boolean
     customerName: string
     createdAt?: Date | string
+    warungId: number
   }
 
   export type WarungUpdateWithoutUserInput = {
@@ -10231,6 +10483,7 @@ export namespace Prisma {
     location?: StringFieldUpdateOperationsInput | string
     warungEmployes?: WarungEmployeUpdateManyWithoutWarungNestedInput
     menu?: MenuUpdateManyWithoutWarungNestedInput
+    bills?: BillUpdateManyWithoutWarungNestedInput
   }
 
   export type WarungUncheckedUpdateWithoutUserInput = {
@@ -10239,6 +10492,7 @@ export namespace Prisma {
     location?: StringFieldUpdateOperationsInput | string
     warungEmployes?: WarungEmployeUncheckedUpdateManyWithoutWarungNestedInput
     menu?: MenuUncheckedUpdateManyWithoutWarungNestedInput
+    bills?: BillUncheckedUpdateManyWithoutWarungNestedInput
   }
 
   export type WarungUncheckedUpdateManyWithoutUserInput = {
@@ -10301,6 +10555,7 @@ export namespace Prisma {
     approved?: BoolFieldUpdateOperationsInput | boolean
     customerName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warung?: WarungUpdateOneRequiredWithoutBillsNestedInput
     orders?: OrderUpdateManyWithoutBillNestedInput
   }
 
@@ -10311,6 +10566,7 @@ export namespace Prisma {
     approved?: BoolFieldUpdateOperationsInput | boolean
     customerName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warungId?: IntFieldUpdateOperationsInput | number
     orders?: OrderUncheckedUpdateManyWithoutBillNestedInput
   }
 
@@ -10321,6 +10577,7 @@ export namespace Prisma {
     approved?: BoolFieldUpdateOperationsInput | boolean
     customerName?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    warungId?: IntFieldUpdateOperationsInput | number
   }
 
   export type WarungEmployeCreateManyWarungInput = {
@@ -10336,6 +10593,16 @@ export namespace Prisma {
     image: string
     available: boolean
     category: string
+    userId: number
+  }
+
+  export type BillCreateManyWarungInput = {
+    id?: number
+    total: number
+    status: string
+    approved: boolean
+    customerName: string
+    createdAt?: Date | string
     userId: number
   }
 
@@ -10384,6 +10651,37 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     available?: BoolFieldUpdateOperationsInput | boolean
     category?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type BillUpdateWithoutWarungInput = {
+    total?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    approved?: BoolFieldUpdateOperationsInput | boolean
+    customerName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBillsNestedInput
+    orders?: OrderUpdateManyWithoutBillNestedInput
+  }
+
+  export type BillUncheckedUpdateWithoutWarungInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    approved?: BoolFieldUpdateOperationsInput | boolean
+    customerName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    orders?: OrderUncheckedUpdateManyWithoutBillNestedInput
+  }
+
+  export type BillUncheckedUpdateManyWithoutWarungInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    total?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    approved?: BoolFieldUpdateOperationsInput | boolean
+    customerName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: IntFieldUpdateOperationsInput | number
   }
 
