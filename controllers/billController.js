@@ -192,3 +192,64 @@ export async function updateBillById(req, res) {
       .json({ error: "Internal Server Error" });
   }
 }
+
+export async function createPublicBill(req, res) {
+  const { id: warungId, userId } = req.warung;
+  const { customerName, orders } = req.body;
+
+  try {
+    let total = 0;
+
+    for (let order of orders) {
+      const { menuId, quantity } = order;
+      const menu = await prismaClient.menu.findUnique({
+        where: {
+          id: menuId,
+        },
+      });
+
+      total += menu.price * quantity;
+    }
+    const newBill = await prismaClient.bill.create({
+      data: {
+        status: "Unpaid",
+        total: total,
+        customerName: customerName,
+        approved: false,
+        userId: userId,
+        warungId: Number(warungId),
+      },
+    });
+
+    const billId = newBill.id;
+
+    let ordersToBill = [];
+
+    for (let order of orders) {
+      const { menuId, quantity } = order;
+      const menu = await prismaClient.menu.findUnique({
+        where: {
+          id: menuId,
+        },
+      });
+      const createOrder = await prismaClient.order.create({
+        data: {
+          quantity: quantity,
+          menuId: menuId,
+          billId: billId,
+          total: menu.price * quantity,
+        },
+      });
+      ordersToBill.push(createOrder);
+    }
+
+    return res
+      .status(StatusCodes.CREATED)
+      .json({ ...newBill, orders: ordersToBill });
+  } catch (error) {
+    console.log("🚀 ~ createBill ~ error:", error);
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: "Internal Server Error" });
+  }
+}

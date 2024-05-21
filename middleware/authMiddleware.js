@@ -74,3 +74,29 @@ export async function authorizationWarungMiddleware(req, res, next) {
       .json({ message: "Unauthorized" });
   }
 }
+
+export async function authorizationPublicBillMiddleware(req, res, next) {
+  const { warungName } = req.params;
+
+  try {
+    if (!warungName) {
+      throw new Error("Unauthorized");
+    }
+
+    const findWarung = await prismaClient.warung.findUnique({
+      where: { name: warungName },
+    });
+
+    if (!findWarung) {
+      throw new Error("Unauthorized");
+    }
+
+    req.warung = findWarung;
+
+    next();
+  } catch (error) {
+    return res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ message: "Unauthorized" });
+  }
+}

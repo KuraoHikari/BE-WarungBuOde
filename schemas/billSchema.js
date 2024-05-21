@@ -18,3 +18,9 @@ export const updateBillSchema = z.object({
   approved: z.boolean().optional(),
   customerName: z.string().optional(),
 });
+
+export const createPublicBillSchema = z.object({
+  customerName: z.string(),
+
+  orders: z.array(Order),
+});
