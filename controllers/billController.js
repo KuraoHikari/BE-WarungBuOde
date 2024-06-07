@@ -2,6 +2,7 @@ import { Prisma } from "../prisma/generated/client/index.js";
 import { StatusCodes } from "http-status-codes";
 
 import prismaClient from "../utils/prisma.js";
+import { getAllUserBillSchema } from "../schemas/billSchema.js";
 
 export async function createBill(req, res) {
   const { warungId } = req.params;
@@ -69,16 +70,69 @@ export async function createBill(req, res) {
 export async function getAllUserBill(req, res) {
   const { id: userId } = req.user;
 
+  // Validasi input menggunakan Zod
+  const validationResult = getAllUserBillSchema.safeParse(req);
+  if (!validationResult.success) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ error: validationResult.error.errors });
+  }
+
+  const { page = "1", limit = "10", search, status, approved } = req.query;
+  const pageNum = parseInt(page);
+  const limitNum = parseInt(limit);
+  const skip = (pageNum - 1) * limitNum;
+
   try {
+    const whereConditions = {
+      userId: userId,
+      AND: [],
+    };
+
+    if (search) {
+      whereConditions.AND.push({
+        customerName: {
+          contains: search,
+          mode: "insensitive",
+        },
+      });
+    }
+
+    if (status) {
+      whereConditions.AND.push({
+        status: {
+          contains: status,
+          mode: "insensitive",
+        },
+      });
+    }
+
+    if (approved !== undefined) {
+      whereConditions.AND.push({
+        approved: approved === "true",
+      });
+    }
+
     const bills = await prismaClient.bill.findMany({
-      where: { userId: userId },
+      where: whereConditions,
+      skip: skip,
+      take: limitNum,
       include: {
         warung: true,
         orders: true,
       },
     });
 
-    return res.status(StatusCodes.OK).json(bills);
+    const totalBills = await prismaClient.bill.count({
+      where: whereConditions,
+    });
+
+    return res.status(StatusCodes.OK).json({
+      data: bills,
+      total: totalBills,
+      page: pageNum,
+      totalPages: Math.ceil(totalBills / limitNum),
+    });
   } catch (error) {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -87,8 +141,20 @@ export async function getAllUserBill(req, res) {
 }
 
 export async function getBillByWarungId(req, res) {
+  // Validasi input menggunakan Zod
+  const validationResult = getBillByWarungIdSchema.safeParse(req);
+  if (!validationResult.success) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ error: validationResult.error.errors });
+  }
+
   const { warungId } = req.params;
   const { id: userId } = req.user;
+  const { page = "1", limit = "10", search, status, approved } = req.query;
+  const pageNum = parseInt(page);
+  const limitNum = parseInt(limit);
+  const skip = (pageNum - 1) * limitNum;
 
   try {
     const warung = await prismaClient.warung.findUnique({
@@ -104,14 +170,54 @@ export async function getBillByWarungId(req, res) {
         .json({ message: "Warung not found" });
     }
 
+    const whereConditions = {
+      warungId: +warungId,
+      AND: [],
+    };
+
+    if (search) {
+      whereConditions.AND.push({
+        customerName: {
+          contains: search,
+          mode: "insensitive",
+        },
+      });
+    }
+
+    if (status) {
+      whereConditions.AND.push({
+        status: {
+          contains: status,
+          mode: "insensitive",
+        },
+      });
+    }
+
+    if (approved !== undefined) {
+      whereConditions.AND.push({
+        approved: approved === "true",
+      });
+    }
+
     const bills = await prismaClient.bill.findMany({
-      where: { warungId: +warungId },
+      where: whereConditions,
+      skip: skip,
+      take: limitNum,
       include: {
         orders: true,
       },
     });
 
-    return res.status(StatusCodes.OK).json(bills);
+    const totalBills = await prismaClient.bill.count({
+      where: whereConditions,
+    });
+
+    return res.status(StatusCodes.OK).json({
+      data: bills,
+      total: totalBills,
+      page: pageNum,
+      totalPages: Math.ceil(totalBills / limitNum),
+    });
   } catch (error) {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)

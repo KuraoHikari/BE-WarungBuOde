@@ -122,22 +122,75 @@ export async function updateMenu(req, res) {
 
 export async function getAllMenu(req, res) {
   const { id: userId } = req.user;
+
+  // Validasi input menggunakan Zod
+  const validationResult = getAllMenuSchema.safeParse(req);
+  if (!validationResult.success) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ error: validationResult.error.errors });
+  }
+
+  const { page = "1", limit = "10", search, category, available } = req.query;
+  const pageNum = parseInt(page);
+  const limitNum = parseInt(limit);
+  const skip = (pageNum - 1) * limitNum;
+
   try {
+    const whereConditions = {
+      userId: userId,
+      AND: [],
+    };
+
+    if (search) {
+      whereConditions.AND.push({
+        title: {
+          contains: search,
+          mode: "insensitive",
+        },
+      });
+    }
+
+    if (category) {
+      whereConditions.AND.push({
+        category: {
+          contains: category,
+          mode: "insensitive",
+        },
+      });
+    }
+
+    if (available !== undefined) {
+      whereConditions.AND.push({
+        available: available === "true",
+      });
+    }
+
     const menus = await prismaClient.menu.findMany({
-      where: { userId: userId },
+      where: whereConditions,
+      skip: skip,
+      take: limitNum,
       include: {
         warung: true,
       },
     });
 
-    return res.status(StatusCodes.OK).json(menus);
+    const totalMenus = await prismaClient.menu.count({
+      where: whereConditions,
+    });
+
+    return res.status(StatusCodes.OK).json({
+      data: menus,
+      total: totalMenus,
+      page: pageNum,
+      totalPages: Math.ceil(totalMenus / limitNum),
+    });
   } catch (error) {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: "Internal Server Error" });
   }
 }
-
 export async function getOneMenuById(req, res) {
   const { menuId } = req.params;
   const { id: userId } = req.user;
@@ -166,16 +219,69 @@ export async function getOneMenuById(req, res) {
 }
 
 export async function getWarungMenu(req, res) {
+  // Validasi input menggunakan Zod
+  const validationResult = getWarungMenuSchema.safeParse(req);
+  if (!validationResult.success) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ error: validationResult.error.errors });
+  }
+
   const { warungId } = req.params;
+  const { page = "1", limit = "10", search, category, available } = req.query;
+  const pageNum = parseInt(page);
+  const limitNum = parseInt(limit);
+  const skip = (pageNum - 1) * limitNum;
+
   try {
+    const whereConditions = {
+      warungId: parseInt(warungId),
+      AND: [],
+    };
+
+    if (search) {
+      whereConditions.AND.push({
+        title: {
+          contains: search,
+          mode: "insensitive",
+        },
+      });
+    }
+
+    if (category) {
+      whereConditions.AND.push({
+        category: {
+          contains: category,
+          mode: "insensitive",
+        },
+      });
+    }
+
+    if (available !== undefined) {
+      whereConditions.AND.push({
+        available: available === "true",
+      });
+    }
+
     const menus = await prismaClient.menu.findMany({
-      where: { warungId: +warungId },
+      where: whereConditions,
+      skip: skip,
+      take: limitNum,
       include: {
         warung: true,
       },
     });
 
-    return res.status(StatusCodes.OK).json(menus);
+    const totalMenus = await prismaClient.menu.count({
+      where: whereConditions,
+    });
+
+    return res.status(StatusCodes.OK).json({
+      data: menus,
+      total: totalMenus,
+      page: pageNum,
+      totalPages: Math.ceil(totalMenus / limitNum),
+    });
   } catch (error) {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)

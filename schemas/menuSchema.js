@@ -27,3 +27,22 @@ export const updateMenuSchema = z.object({
 export const updateMenuAvailableSchema = z.object({
   available: z.coerce.boolean().optional(),
 });
+
+const menuQuerySchema = z.object({
+  page: z.string().optional(),
+  limit: z.string().optional(),
+  search: z.string().optional(),
+  category: z.string().optional(),
+  available: z.string().optional(),
+});
+
+export const getAllMenuSchema = z.object({
+  query: menuQuerySchema,
+});
+
+export const getWarungMenuSchema = z.object({
+  query: menuQuerySchema,
+  params: z.object({
+    warungId: z.string(),
+  }),
+});
