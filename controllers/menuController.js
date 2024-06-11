@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 
 import prismaClient from "../utils/prisma.js";
 import { handleUpload } from "../utils/cloudinary.js";
+import { getAllMenuByWarungNameSchema } from "../schemas/menuSchema.js";
 
 export async function createMenu(req, res) {
   const { id: userId } = req.user;
@@ -153,10 +154,7 @@ export async function getAllMenu(req, res) {
 
     if (category) {
       whereConditions.AND.push({
-        category: {
-          contains: category,
-          mode: "insensitive",
-        },
+        category: category,
       });
     }
 
@@ -250,10 +248,7 @@ export async function getWarungMenu(req, res) {
 
     if (category) {
       whereConditions.AND.push({
-        category: {
-          contains: category,
-          mode: "insensitive",
-        },
+        category: category,
       });
     }
 
@@ -290,34 +285,68 @@ export async function getWarungMenu(req, res) {
 }
 
 export async function getAllMenuByWarungName(req, res) {
+  const validationResult = getAllMenuByWarungNameSchema.safeParse(req);
+  if (!validationResult.success) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ error: validationResult.error.errors });
+  }
   const { warungName } = req.params;
-  const { category } = req.query;
+  const { page = "1", limit = "10", search, category, available } = req.query;
+  const pageNum = parseInt(page);
+  const limitNum = parseInt(limit);
+  const skip = (pageNum - 1) * limitNum;
 
   try {
-    const whereClause = { warung: { name: warungName } };
+    const whereConditions = {
+      warung: {
+        name: warungName,
+      },
+      AND: [],
+    };
+
+    if (search) {
+      whereConditions.AND.push({
+        title: {
+          contains: search,
+          mode: "insensitive",
+        },
+      });
+    }
 
     if (category) {
-      whereClause.category = category;
+      whereConditions.AND.push({
+        category: category,
+      });
     }
+
+    if (available !== undefined) {
+      whereConditions.AND.push({
+        available: available === "true",
+      });
+    }
+
     const menus = await prismaClient.menu.findMany({
-      where: whereClause,
-      select: {
-        title: true,
-        price: true,
-        desc: true,
-        available: true,
-        image: true,
+      where: whereConditions,
+      skip: skip,
+      take: limitNum,
+      include: {
+        warung: true,
       },
     });
 
-    if (menus.length === 0) {
-      return res
-        .status(StatusCodes.NOT_FOUND)
-        .json({ message: "Menus not found" });
-    }
+    const totalMenus = await prismaClient.menu.count({
+      where: whereConditions,
+    });
 
-    return res.status(StatusCodes.OK).json(menus);
+    return res.status(StatusCodes.OK).json({
+      data: menus,
+      total: totalMenus,
+      page: pageNum,
+      totalPages: Math.ceil(totalMenus / limitNum),
+    });
   } catch (error) {
+    console.log("🚀 ~ getAllMenuByWarungName ~ error:", error);
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: "Internal Server Error" });

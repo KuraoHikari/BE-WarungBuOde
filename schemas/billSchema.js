@@ -37,7 +37,7 @@ export const getAllUserBillSchema = z.object({
 
 export const getBillByWarungIdSchema = z.object({
   params: z.object({
-    warungId: z.string().nonempty(),
+    warungId: z.string(),
   }),
   query: z.object({
     page: z.string().optional(),

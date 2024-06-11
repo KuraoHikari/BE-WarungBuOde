@@ -2,7 +2,10 @@ import { Prisma } from "../prisma/generated/client/index.js";
 import { StatusCodes } from "http-status-codes";
 
 import prismaClient from "../utils/prisma.js";
-import { getAllUserBillSchema } from "../schemas/billSchema.js";
+import {
+  getAllUserBillSchema,
+  getBillByWarungIdSchema,
+} from "../schemas/billSchema.js";
 
 export async function createBill(req, res) {
   const { warungId } = req.params;
@@ -100,10 +103,7 @@ export async function getAllUserBill(req, res) {
 
     if (status) {
       whereConditions.AND.push({
-        status: {
-          contains: status,
-          mode: "insensitive",
-        },
+        status: status,
       });
     }
 
@@ -186,10 +186,7 @@ export async function getBillByWarungId(req, res) {
 
     if (status) {
       whereConditions.AND.push({
-        status: {
-          contains: status,
-          mode: "insensitive",
-        },
+        status: status,
       });
     }
 

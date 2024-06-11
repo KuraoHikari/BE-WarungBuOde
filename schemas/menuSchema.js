@@ -46,3 +46,21 @@ export const getWarungMenuSchema = z.object({
     warungId: z.string(),
   }),
 });
+
+export const getAllMenuByWarungNameSchema = z.object({
+  params: z.object({
+    warungName: z.string(),
+  }),
+  query: z.object({
+    category: z.string().optional(),
+    search: z.string().optional(),
+    page: z
+      .string()
+      .optional()
+      .transform((val) => parseInt(val, 10) || 1),
+    limit: z
+      .string()
+      .optional()
+      .transform((val) => parseInt(val, 10) || 10),
+  }),
+});

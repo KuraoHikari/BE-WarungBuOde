@@ -6,6 +6,7 @@ import prismaClient from "../utils/prisma.js";
 export async function authenticationMiddleware(req, res, next) {
   try {
     const token = req.headers.token;
+    // console.log("🚀 ~ authenticationMiddleware ~ token:", token);
 
     if (!token) {
       throw new Error("Unauthicated");
