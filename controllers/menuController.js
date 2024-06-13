@@ -2,7 +2,10 @@ import { StatusCodes } from "http-status-codes";
 
 import prismaClient from "../utils/prisma.js";
 import { handleUpload } from "../utils/cloudinary.js";
-import { getAllMenuByWarungNameSchema } from "../schemas/menuSchema.js";
+import {
+  getAllMenuByWarungNameSchema,
+  getAllMenuSchema,
+} from "../schemas/menuSchema.js";
 
 export async function createMenu(req, res) {
   const { id: userId } = req.user;
