@@ -18,7 +18,7 @@ app.get("/health", (req, res) => {
 app.use(router);
 
 app.use((req, res) => {
-  res.send("route tidak ditemukan");
+  res.send("route tidak ditemukan.");
 });
 
 app.listen(port, () => {
