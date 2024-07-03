@@ -31,12 +31,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 5.13.0
- * Query Engine version: b9a39a7ee606c28e3455d0fd60e78c3ba82b1a2b
+ * Prisma Client JS version: 5.16.1
+ * Query Engine version: 34ace0eb2704183d2c05b60b52fba5c43c13f303
  */
 Prisma.prismaVersion = {
-  client: "5.13.0",
-  engine: "b9a39a7ee606c28e3455d0fd60e78c3ba82b1a2b"
+  client: "5.16.1",
+  engine: "34ace0eb2704183d2c05b60b52fba5c43c13f303"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -174,7 +174,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\user\\Documents\\GitHub\\BE-WarungBuOde\\prisma\\generated\\client",
+      "value": "/home/kuraohikari/code/BE-WarungBuOde/prisma/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -183,20 +183,20 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-3.0.x",
         "native": true
       }
     ],
     "previewFeatures": [],
+    "sourceFilePath": "/home/kuraohikari/code/BE-WarungBuOde/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../..",
-  "clientVersion": "5.13.0",
-  "engineVersion": "b9a39a7ee606c28e3455d0fd60e78c3ba82b1a2b",
+  "clientVersion": "5.16.1",
+  "engineVersion": "34ace0eb2704183d2c05b60b52fba5c43c13f303",
   "datasourceNames": [
     "db"
   ],
@@ -210,8 +210,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\r\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\r\n\r\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\r\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\r\n\r\ngenerator client {\r\n  provider = \"prisma-client-js\"\r\n  output   = \"./generated/client\"\r\n}\r\n\r\ndatasource db {\r\n  provider = \"postgresql\"\r\n  url      = env(\"DATABASE_URL\")\r\n  directUrl = env(\"DIRECT_URL\")\r\n}\r\n\r\nenum Role {\r\n  EMPLOYE\r\n  ADMIN\r\n}\r\n\r\nmodel User {\r\n   id        Int      @id @default(autoincrement())\r\n   email     String   @unique\r\n   username  String\r\n   password  String  \r\n   role      Role     @default(EMPLOYE)\r\n\r\n   warungs   Warung[]\r\n   warungEmployes WarungEmploye[]\r\n   menu      Menu[]\r\n\r\n   bills     Bill[]\r\n}\r\n\r\nmodel Warung {\r\n   id        Int     @id @default(autoincrement())\r\n   name      String  @unique\r\n   location  String\r\n\r\n   user      User    @relation(fields: [userId], references: [id])\r\n   userId    Int\r\n\r\n   warungEmployes WarungEmploye[]\r\n   menu      Menu[]\r\n\r\n   bills     Bill[]\r\n}\r\n\r\nmodel WarungEmploye {\r\n   id        Int     @id @default(autoincrement())\r\n   warung    Warung    @relation(fields: [warungId], references: [id])\r\n   warungId  Int\r\n   user      User    @relation(fields: [userId], references: [id])\r\n   userId    Int\r\n}\r\n\r\nmodel Menu {\r\n   id        Int     @id @default(autoincrement())\r\n   title     String\r\n   price     Int\r\n   desc      String\r\n   image     String\r\n   available Boolean\r\n   category  String\r\n\r\n   warung    Warung    @relation(fields: [warungId], references: [id])\r\n   warungId  Int\r\n   user      User    @relation(fields: [userId], references: [id])\r\n   userId    Int\r\n\r\n   orders    Order[]\r\n}\r\n\r\nmodel Order {\r\n   id        Int     @id @default(autoincrement())\r\n   menu      Menu    @relation(fields: [menuId], references: [id])\r\n   menuId    Int\r\n   bill      Bill    @relation(fields: [billId], references: [id])\r\n   billId    Int\r\n   quantity  Int\r\n   total     Int\r\n   createdAt DateTime @default(now())\r\n}\r\n\r\nmodel Bill {\r\n   id        Int     @id @default(autoincrement())\r\n   \r\n   total     Int\r\n   status    String\r\n   approved  Boolean\r\n   customerName String\r\n   createdAt DateTime @default(now())\r\n\r\n   user      User    @relation(fields: [userId], references: [id])\r\n   userId    Int\r\n\r\n   warung    Warung    @relation(fields: [warungId], references: [id])\r\n   warungId  Int\r\n   orders    Order[]\r\n}\r\n\r\n",
-  "inlineSchemaHash": "d9c0995c3c89e662662ba3143574c9b2dd560fa4558fb0fd259d370e24d221b5",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/client\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"DATABASE_URL\")\n  directUrl = env(\"DIRECT_URL\")\n}\n\nenum Role {\n  EMPLOYE\n  ADMIN\n}\n\nmodel User {\n  id       Int    @id @default(autoincrement())\n  email    String @unique\n  username String\n  password String\n  role     Role   @default(EMPLOYE)\n\n  warungs        Warung[]\n  warungEmployes WarungEmploye[]\n  menu           Menu[]\n\n  bills Bill[]\n}\n\nmodel Warung {\n  id       Int    @id @default(autoincrement())\n  name     String @unique\n  location String\n\n  user   User @relation(fields: [userId], references: [id])\n  userId Int\n\n  warungEmployes WarungEmploye[]\n  menu           Menu[]\n\n  bills Bill[]\n}\n\nmodel WarungEmploye {\n  id       Int    @id @default(autoincrement())\n  warung   Warung @relation(fields: [warungId], references: [id])\n  warungId Int\n  user     User   @relation(fields: [userId], references: [id])\n  userId   Int\n}\n\nmodel Menu {\n  id        Int     @id @default(autoincrement())\n  title     String\n  price     Int\n  desc      String\n  image     String\n  available Boolean\n  category  String\n\n  warung   Warung @relation(fields: [warungId], references: [id])\n  warungId Int\n  user     User   @relation(fields: [userId], references: [id])\n  userId   Int\n\n  orders Order[]\n}\n\nmodel Order {\n  id        Int      @id @default(autoincrement())\n  menu      Menu     @relation(fields: [menuId], references: [id])\n  menuId    Int\n  bill      Bill     @relation(fields: [billId], references: [id])\n  billId    Int\n  quantity  Int\n  total     Int\n  createdAt DateTime @default(now())\n}\n\nmodel Bill {\n  id Int @id @default(autoincrement())\n\n  total        Int\n  status       String\n  approved     Boolean\n  customerName String\n  createdAt    DateTime @default(now())\n\n  user   User @relation(fields: [userId], references: [id])\n  userId Int\n\n  warung   Warung  @relation(fields: [warungId], references: [id])\n  warungId Int\n  orders   Order[]\n}\n",
+  "inlineSchemaHash": "587141c066c7e38aeade0a18da185582eb2aa4748ddeaac3eb81e46e650d47e9",
   "copyEngine": true
 }
 
@@ -249,8 +249,8 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
-path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "prisma/generated/client/query_engine-windows.dll.node")
+path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
+path.join(process.cwd(), "prisma/generated/client/libquery_engine-debian-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "prisma/generated/client/schema.prisma")
