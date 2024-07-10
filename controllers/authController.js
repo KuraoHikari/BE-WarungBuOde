@@ -38,6 +38,7 @@ export async function loginAuth(req, res) {
         .json({ message: "Invalid Credentials" });
     }
   } catch (error) {
+    console.log("🚀 ~ file: authController.js:41 ~ error:", error);
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ error: "Internal Server Error" });
