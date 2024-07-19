@@ -228,6 +228,7 @@ export async function getOneMenuById(req, res) {
 }
 
 export async function getWarungMenu(req, res) {
+  console.log("masuk");
   // Validasi input menggunakan Zod
   const validationResult = getWarungMenuSchema.safeParse(req);
   if (!validationResult.success) {

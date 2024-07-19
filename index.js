@@ -17,6 +17,20 @@ app.get("/health", (req, res) => {
 
 app.use(router);
 
+app.get("/api/json-stat", async (req, res) => {
+  const username = req.query.username;
+  try {
+    const response = await fetch(
+      `https://github-readme-stats-tau-topaz-99.vercel.app/api/json-stat?username=${username}`
+    );
+    const data = await response.json();
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+});
+
 app.use((req, res) => {
   res.send("route tidak ditemukan.");
 });
