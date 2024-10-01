@@ -13,4 +13,8 @@ const kyInstance = ky.create({
     }),
 });
 
+export function isHTTPError(error) {
+  return error.response?.json !== undefined;
+}
+
 export default kyInstance;
