@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import router from "./routes/index.js";
+import kyInstance from "./api/baseWaApi.js";
 
 const app = express();
 const port = 3000;
@@ -29,6 +30,19 @@ app.get("/api/json-stat", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch data" });
   }
+});
+
+app.post("/wa/auth/login", async (req, res) => {
+  const response = await kyInstance
+    .post(`auth/login`, {
+      json: {
+        email: req.body.email,
+        password: req.body.password,
+      },
+    })
+    .json();
+
+  res.status(200).json(response);
 });
 
 app.use((req, res) => {
